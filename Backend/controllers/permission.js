@@ -1,7 +1,41 @@
-// This function will ad permissions to TWO tables (role_permission , permissions)
+const connection = require("../models/db");
 
-const createNewPermission = (req, res) => {
-  //TODO: write your code here
+const createPermission = (req, res) => {
+  const { permission } = req.body;
+  const role_id = req.params.id;
+  console.log(permission,role_id);
+
+  const query = `INSERT INTO Permissions (Permission) VALUES (?);`;
+  const data = [permission];
+ 
+  connection.query(query, data, (err, result) => {
+    if (err) {
+    return   res.status(500).json({ err });
+    }
+    if (result) {
+      const query = `INSERT INTO Role_Permissions (Permission_ID,Role_ID) VALUES (?,?); `;
+      const permission_id = result.insertId;
+      const data = [permission_id, role_id];
+
+      connection.query(query, data, (err, result) => {
+        if (err) {
+         return  res.status(500).json({ err });
+        }
+        if (result) {
+          return res.status(201).json({
+            success: true,
+            message: "permission created",
+            result: result,
+          });
+        }
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: "permission not created",
+      });
+    }
+  });
 };
 
-module.exports = { createNewPermission };
+module.exports = { createPermission };

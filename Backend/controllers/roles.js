@@ -1,6 +1,29 @@
-// This function creates new role
+const connection = require("../models/db");
+
 const createNewRole = (req, res) => {
-  //TODO: write your code here
+  const { role } = req.body;
+
+  const query = `INSERT INTO Roles (Role) VALUES (?)`;
+  const data = [role];
+ 
+
+  connection.query(query, data, (err, results) => {
+   
+    if (err) {
+   return res.status(500).json({
+        success: false,
+        massage: "server error*",
+        err: err,
+      });
+    }
+    res.status(201).json({
+      success: true,
+      massage: "Success role created",
+      results: results,
+    });
+  });
 };
 
-module.exports = { createNewRole };
+module.exports = {
+  createNewRole,
+};

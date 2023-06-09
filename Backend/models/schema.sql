@@ -1,2 +1,75 @@
--- Build Your Tables Here --
+DROP DATABASE MStart;
 
+CREATE DATABASE MStart;
+
+USE MStart;
+
+CREATE TABLE Roles (
+  Role_ID INT AUTO_INCREMENT NOT NULL,
+  Role VARCHAR(255) NOT NULL,
+  PRIMARY KEY (Role_ID)
+);
+
+-- Users Table
+CREATE TABLE Users (
+  ID INT PRIMARY KEY AUTO_INCREMENT,
+  Server_DateTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+  Update_DateTime_UTC DATETIME DEFAULT CURRENT_TIMESTAMP,
+  DateTime_UTC DATETIME DEFAULT CURRENT_TIMESTAMP,
+  Last_Login_DateTime_UTC DATETIME DEFAULT NULL,
+  Name VARCHAR(255),
+  Email VARCHAR(255)  NOT NULL UNIQUE,
+  Password VARCHAR(255),
+  Phone VARCHAR(20),
+  Status VARCHAR(20),
+  Gender VARCHAR(10),
+  Date_Of_Birth DATE,
+  Photo VARCHAR(255),
+  Role_ID INT,
+  FOREIGN KEY (Role_ID) REFERENCES Roles(Role_ID),
+  Is_Deleted TINYINT DEFAULT 0
+);
+
+-- Deals Table
+CREATE TABLE Deals (
+  ID INT PRIMARY KEY AUTO_INCREMENT,
+  Server_DateTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+  Update_DateTime_UTC DATETIME DEFAULT CURRENT_TIMESTAMP,
+  DateTime_UTC DATETIME DEFAULT CURRENT_TIMESTAMP,
+  Name VARCHAR(255),
+  Description TEXT,
+  Status VARCHAR(20),
+  Amount DECIMAL(10, 2),
+  Currency VARCHAR(10),
+  Is_Deleted TINYINT DEFAULT 0
+);
+
+-- Claimed Deals Table
+CREATE TABLE ClaimedDeals (
+  ID INT PRIMARY KEY AUTO_INCREMENT,
+  User_ID INT,
+  Deal_ID INT,
+  Server_DateTime DATETIME,
+  DateTime_UTC DATETIME,
+  Amount DECIMAL(10, 2),
+  Currency VARCHAR(10),
+  FOREIGN KEY (User_ID) REFERENCES Users(ID),
+  FOREIGN KEY (Deal_ID) REFERENCES Deals(ID),
+  Is_Deleted TINYINT DEFAULT 0
+);
+
+CREATE TABLE Permissions (
+  Permissions_ID INT AUTO_INCREMENT NOT NULL,
+  Permission VARCHAR(255),
+  PRIMARY KEY (Permissions_ID),
+  Is_Deleted TINYINT DEFAULT 0
+);
+
+CREATE TABLE Role_Permissions (
+  Role_Permission_ID INT NOT NULL AUTO_INCREMENT NOT NULL,
+  Role_ID INT,
+  Permission_ID INT,
+  FOREIGN KEY (Role_ID) REFERENCES Roles (Role_ID),
+  FOREIGN KEY (Permission_ID) REFERENCES Permissions (Permissions_ID),
+  PRIMARY KEY (Role_Permission_ID)
+);
