@@ -108,57 +108,58 @@ const changePassword = async (req, res) => {
 
     const data = [id];
 
-
-connection.query(query,data,(err,result)=>{
-  bcrypt.compare(oldPassword,result[0].Password, async (err, result1) => {
-    if (!result1) {
-      return res.status(403).json({
-        success: false,
-        message: "The Old Password You Have Entered Is Incorrect",
-      });
-    }
-
-    if (result1) {
-      bcrypt.compare(newPassword, result[0].Password, async (err, result2) => {
-        if (result2) {
-          return res.status(400).json({
+    connection.query(query, data, (err, result) => {
+      bcrypt.compare(oldPassword, result[0].Password, async (err, result1) => {
+        if (!result1) {
+          return res.status(403).json({
             success: false,
-            message:
-              "Your New Password Must Not Be the Same As Your Old Password ",
+            message: "The Old Password You Have Entered Is Incorrect",
           });
         }
 
-        if (!result2) {
-          if (newPassword !== confirmPassword) {
-            return res.status(400).json({
-              success: false,
-              message: "The New Password Does Not Match Confirm Password ",
-            });
-          } else {
-            const query_tow = `UPDATE Users SET Password= ?,Update_DateTime_UTC=CURRENT_TIMESTAMP WHERE ID = ?; `;
-            const hashPassword = await bcrypt.hash(newPassword, saltRounds);
+        if (result1) {
+          bcrypt.compare(
+            newPassword,
+            result[0].Password,
+            async (err, result2) => {
+              if (result2) {
+                return res.status(400).json({
+                  success: false,
+                  message:
+                    "Your New Password Must Not Be the Same As Your Old Password ",
+                });
+              }
 
-            const data2 = [hashPassword, id];
+              if (!result2) {
+                if (newPassword !== confirmPassword) {
+                  return res.status(400).json({
+                    success: false,
+                    message:
+                      "The New Password Does Not Match Confirm Password ",
+                  });
+                } else {
+                  const query_tow = `UPDATE Users SET Password= ?,Update_DateTime_UTC=CURRENT_TIMESTAMP WHERE ID = ?; `;
+                  const hashPassword = await bcrypt.hash(
+                    newPassword,
+                    saltRounds
+                  );
 
-            connection.query(query_tow, data2, (err, result3) => {
-              console.log(result3);
-              return res.status(201).json({
-                success: true,
-                message: "Password Change",
-                 
-              });
-            });
-          }
+                  const data2 = [hashPassword, id];
+
+                  connection.query(query_tow, data2, (err, result3) => {
+                    console.log(result3);
+                    return res.status(201).json({
+                      success: true,
+                      message: "Password Change",
+                    });
+                  });
+                }
+              }
+            }
+          );
         }
       });
-    }
-  });
-
-})
-
-
-
-
+    });
   } catch (err) {
     return res
       .status(500)
@@ -186,9 +187,10 @@ const login = (req, res) => {
           });
         }
         if (response) {
+          console.log(result);
           const payload = {
             userId: result[0].ID,
-
+            user: result[0].Role,
             role: result[0].Role_ID,
           };
           const secret = process.env.SECRET;
@@ -197,11 +199,10 @@ const login = (req, res) => {
           const query2 = `update Users SET Last_Login_DateTime_UTC=CURRENT_TIMESTAMP where Email= ? `;
           const data2 = [email];
           connection.query(query2, data2, (err, res2) => {
-            
             if (res2) {
               return res.status(200).json({
                 token,
-             
+
                 Last_Login_Time: result[0].Last_Login_DateTime_UTC,
               });
             }

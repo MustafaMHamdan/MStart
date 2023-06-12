@@ -41,6 +41,7 @@ CREATE TABLE Deals (
   Status VARCHAR(20),
   Amount DECIMAL(10, 2),
   Currency VARCHAR(10),
+  Photo VARCHAR(255),
   Is_Deleted TINYINT DEFAULT 0
 );
 
