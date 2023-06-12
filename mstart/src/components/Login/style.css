@@ -1,0 +1,41 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+    }
+    
+
+
+  
+  .log{
+    border: solid blue;
+    margin-left: 42% ;
+    padding-top: 10px ;
+    padding-bottom: 10px;
+    width: 20%;
+      }
+
+
+      .log input{
+width: 200px;
+height: 30px;
+padding: auto;
+      }
+
+      .log button{
+        width: 200px;
+        height: 30px;
+
+        background-color: blue;
+        color: beige;
+              }
+
+
+              .message {
+                margin: auto;
+                width: 200px;
+                height: 30px;
+                background-color:rgba(233, 77, 56, 0.863) ;
+                color: white;
+              }
