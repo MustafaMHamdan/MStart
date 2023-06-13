@@ -45,7 +45,7 @@ adminRouter.post(
 );
 
 adminRouter.get(
-  "/allDeal",
+  "/allDeals",
   authentication,
   authorization("Get_All_Deals"),
   getAllDeal

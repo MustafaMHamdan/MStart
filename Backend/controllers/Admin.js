@@ -19,7 +19,7 @@ const getAllUsers = (req, res) => {
     res.status(201).json({
       success: true,
 
-      All_Deals: results,
+      All_Users: results,
     });
   });
 };
@@ -199,8 +199,8 @@ const deleteDeal = (req, res) => {
 const getAllClaimedDeals= (req, res) => {
 
   const query = `SELECT * from  ClaimedDeals `;
-const data=[id]
-  connection.query(query,data, (err, results) => {
+
+  connection.query(query, (err, results) => {
     if (err) {
       return res.status(500).json({
         success: false,

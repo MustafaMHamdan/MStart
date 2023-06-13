@@ -5,11 +5,11 @@ const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
-  const { Name, Phone, Email, password, Gender, Date_Of_Birth, Photo } =
+  const { Name, Phone, Email, Password, Gender, DateOfBirth, Photo } =
     req.body;
   const Role_id = req.body.Role_ID || 2;
   const Status = req.body.Status || "Active";
-  const encryptedPassword = await bcrypt.hash(password, saltRounds);
+  const encryptedPassword = await bcrypt.hash(Password, saltRounds);
 
   const query = `INSERT INTO Users (Name, Phone, Email, Password,Gender,Date_Of_Birth,Role_ID,Status,Photo) VALUES (?,?,?,?,?,?,?,?,?)`;
   const data = [
@@ -18,7 +18,7 @@ const register = async (req, res) => {
     Email,
     encryptedPassword,
     Gender,
-    Date_Of_Birth,
+    DateOfBirth,
     Role_id,
     Status,
     Photo,
@@ -28,14 +28,14 @@ const register = async (req, res) => {
     if (err) {
       return res.status(409).json({
         success: false,
-        massage: " already exist",
+        message: "Email Already Exist",
         err: err.message,
       });
     }
 
     return res.status(200).json({
       success: true,
-      massage: "Account Created Successfully",
+      message: "Account Created Successfully",
       result: data,
     });
   });
@@ -46,7 +46,7 @@ const register = async (req, res) => {
 const updateUserInfo = (req, res) => {
   const id = req.token.userId;
 
-  const { Name, Phone, Email, Gender, Date_Of_Birth, Photo } = req.body;
+  const { Name, Phone, Email, Gender, DateOfBirth, Photo } = req.body;
 
   const query = `SELECT * FROM Users WHERE ID = ?`;
   const data = [id];
@@ -61,16 +61,16 @@ const updateUserInfo = (req, res) => {
     const update_Phone = Phone || result[0].Phone;
     const update_Email = Email || result[0].Email;
     const update_Gender = Gender || result[0].Gender;
-    const update_Date_Of_Birth = Date_Of_Birth || result[0].Date_Of_Birth;
+    const update_DateOfBirth = DateOfBirth || result[0].DateOfBirth;
     const update_Photo = Photo || result[0].Photo;
 
-    const query_tow = `UPDATE Users SET Name= ? ,Phone=? ,Email =?, Gender = ? ,Date_Of_Birth =? , Photo=?, Update_DateTime_UTC=CURRENT_TIMESTAMP WHERE ID = ? `;
+    const query_tow = `UPDATE Users SET Name= ? ,Phone=? ,Email =?, Gender = ? ,DateOfBirth =? , Photo=?, Update_DateTime_UTC=CURRENT_TIMESTAMP WHERE ID = ? `;
     const data = [
       update_Name,
       update_Phone,
       update_Email,
       update_Gender,
-      update_Date_Of_Birth,
+      update_DateOfBirth,
       update_Photo,
       id,
     ];
@@ -89,7 +89,7 @@ const updateUserInfo = (req, res) => {
           Phone: update_Phone,
           Email: update_Email,
           Gender: update_Gender,
-          Date_Of_Birth: update_Date_Of_Birth,
+          DateOfBirth: update_DateOfBirth,
           Photo: update_Photo,
         },
       });
@@ -204,11 +204,13 @@ const login = (req, res) => {
                 token,
 
                 Last_Login_Time: result[0].Last_Login_DateTime_UTC,
+                Role_ID:result[0].Role_ID
               });
             }
             if (err) {
               return res.status(500).json({
                 error: err.message,
+
               });
             }
           });
