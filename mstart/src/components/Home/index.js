@@ -1,0 +1,16 @@
+import { React, useContext } from "react";
+ 
+
+const Home = () => {
+ 
+ 
+
+  return (
+    <>
+    this is home 
+    
+    </>
+  );
+};
+
+export default Home;

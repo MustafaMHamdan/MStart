@@ -1,35 +1,110 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    
-    }
-    
-    
-    
-    .successful {
-      
-        background-color:green ;
-        color: beige;
-      }
-      
-      .error {
-        background-color:rgba(233, 77, 56, 0.863) ;
-        color: white;
-      }
-    
-      .reg{
-    border: solid blue;
-    margin-left: 42% ;
-    padding-top: 10px ;
-    width: 20%;
-      }
-    
-      
-      
-      .reg button{
-       background-color: blue;
-    
-       
-       color: white;
-          }
+.register-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.register-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.register-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.register-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.register-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.register-form button:hover {
+  background-color: #45a049;
+}
+
+/* style.css */
+
+.register-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.SuccessMessage,
+.ErrorMessage {
+  margin-top: 10px;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.SuccessMessage {
+  color: green;
+  background-color: #d1f0dd;
+}
+
+.ErrorMessage {
+  color: red;
+  background-color: #f0d1d1;
+}
