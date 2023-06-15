@@ -1,0 +1,42 @@
+.active-deals-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .deal-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .deal-item h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .image-container {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 10px;
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  p {
+    margin-bottom: 5px;
+  }
+  
+  hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-top: 1px solid #ddd;
+  }
+  

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { tokenContext } from "../../App";
-
+import "./style.css"
 const Profile = () => {
   const { token } = useContext(tokenContext);
 
