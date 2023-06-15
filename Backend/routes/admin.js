@@ -3,6 +3,7 @@ const {
   getAllUsers,
   getUserById,
   deleteUser,
+  updateUser,
   addNewDeal,
   getAllDeal,
   update_deal,
@@ -36,6 +37,16 @@ adminRouter.delete(
   authorization("Delete_User_ById"),
   deleteUser
 );
+
+/* updateUser */
+
+adminRouter.put(
+  "/user/:id",
+  authentication,
+  authorization("Update_User_ById"),
+  updateUser
+);
+
 
 adminRouter.post(
   "/deal",

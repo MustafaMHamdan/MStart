@@ -5,7 +5,7 @@ const connection = require("../models/db");
 
 
 const getAllUsers = (req, res) => {
-  const query = `SELECT * from  Users `;
+  const query = `SELECT * from  Users where Role_ID=2 `;
 
   connection.query(query, (err, results) => {
     if (err) {
@@ -49,7 +49,7 @@ const deleteUser = (req, res) => {
   const id = req.params.id;
 
   const query = `UPDATE Users SET Update_DateTime_UTC=CURRENT_TIMESTAMP , Is_Deleted=1 ,Status=? WHERE ID = ? `;
-  const data = [ "Deleted" ,id];
+  const data = ["Deleted", id];
 
   connection.query(query, data, (err, results) => {
     console.log(data);
@@ -69,10 +69,41 @@ const deleteUser = (req, res) => {
   });
 };
 
+
+
+/////////////////////////////////////////////////
+
+
+const updateUser =  (req, res) => {
+  const id = req.params.id;
+  const Status = req.body.Status
+  const query = `UPDATE Users SET Update_DateTime_UTC=CURRENT_TIMESTAMP  ,Status=? WHERE ID = ? `;
+  const data = [Status, id];
+
+  connection.query(query, data, (err, results) => {
+    console.log(data);
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        massage: "server error*",
+        err: err,
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      Message: "the user has been updated ",
+      results: results,
+    });
+  });
+
+}
+
+
 const addNewDeal = (req, res) => {
-  const { Name, Description, Status, Amount, Currency,Photo } = req.body;
+  const { Name, Description, Status, Amount, Currency, Photo } = req.body;
   const query = `INSERT INTO Deals (Name,Description,Status,Amount,Currency,Photo) VALUES (?,?,?,?,?,?)`;
-  const data = [Name, Description, Status, Amount, Currency,Photo];
+  const data = [Name, Description, Status, Amount, Currency, Photo];
 
   connection.query(query, data, (err, results) => {
     if (err) {
@@ -176,7 +207,7 @@ const deleteDeal = (req, res) => {
   const id = req.params.id;
 
   const query = `UPDATE Deals SET Update_DateTime_UTC=CURRENT_TIMESTAMP , Is_Deleted=1 ,Status=? WHERE ID = ? `;
-  const data = [ "Deleted"  , id];
+  const data = ["Deleted", id];
 
   connection.query(query, data, (err, results) => {
     console.log(data);
@@ -196,7 +227,7 @@ const deleteDeal = (req, res) => {
   });
 };
 
-const getAllClaimedDeals= (req, res) => {
+const getAllClaimedDeals = (req, res) => {
 
   const query = `SELECT * from  ClaimedDeals `;
 
@@ -208,7 +239,7 @@ const getAllClaimedDeals= (req, res) => {
         err: err,
       });
     }
-    
+
 
     res.status(201).json({
       success: true,
@@ -244,6 +275,7 @@ module.exports = {
   getAllUsers,
   getUserById,
   deleteUser,
+  updateUser,
   addNewDeal,
   getAllDeal,
   update_deal,
