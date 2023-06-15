@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
-import './style.css';
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import { tokenContext } from "../../App";
 import { Image, CloudinaryContext } from 'cloudinary-react';
+import "./style.css"
 
-
-const Register = () => {
+const AddDeal = () => {
   const [Name, setName] = useState('');
-  const [Phone, setPhone] = useState('');
-  const [Email, setEmail] = useState('');
-  const [Password, setPassword] = useState('');
-  const [Gender, setGender] = useState('');
-  const [DateOfBirth, setDateOfBirth] = useState('');
+  const [Description, setDescription] = useState('');
+  const [Status, setStatus] = useState('');
+  const [Amount, setAmount] = useState('');
+  const [Currency, setCurrency] = useState('');
   const [Photo, setPhoto] = useState(null);
   const [PhotoURL, setPhotoURL] = useState('');
 
   const [message, setMessage] = useState("");
-  const [isRegistered, setIsReg] = useState(false);
-
+  const { token, setToken } = useContext(tokenContext);
 
   const cloudinaryConfig = {
     cloudName: 'dnin1rp5m',
@@ -25,21 +23,16 @@ const Register = () => {
     unsignedUploadPreset: 'znoohgg2' // Replace with your unsigned preset name
   };
 
-
-
-
-
-  const addUser = async (e) => {
+  const addDeal = async (e) => {
     e.preventDefault();
     try {
       const dealData = {
         Name,
-        Phone,
-        Email,
-        Password,
-        Gender,
-        DateOfBirth,
-        Photo:PhotoURL,
+        Description,
+        Status,
+        Amount,
+        Currency,
+        Photo: PhotoURL,
       };
 
       if (Photo) {
@@ -62,17 +55,18 @@ const Register = () => {
         }
       }
 
-      const response = await axios.post("http://localhost:5000/user/register", dealData);
+      const response = await axios.post("http://localhost:5000/admin/deal", dealData, {
+        headers: { authorization: `Bearer ${token}` }
+      });
 
       console.log(response.data); // Deal creation response from the server
 
       // Reset form fields after successful submission
       setName('');
-      setPhone('');
-      setEmail('');
-      setPassword('');
-      setGender('');
-      setDateOfBirth('');
+      setDescription('');
+      setStatus('');
+      setAmount('');
+      setCurrency('');
       setPhoto(null);
       setPhotoURL('');
       setMessage('');
@@ -83,20 +77,10 @@ const Register = () => {
     }
   };
 
-
-
-
-
-
-
-
-
-
-
   return (
     <>
-      <form className="register-form" onSubmit={addUser}>
-        <h2>Register</h2>
+      <form className="register-form" onSubmit={addDeal}>
+        <h2>Add Deal</h2>
         <label htmlFor="name">Name:</label>
         <input
           type="text"
@@ -105,54 +89,48 @@ const Register = () => {
           onChange={(e) => setName(e.target.value)}
         />
 
-        <label htmlFor="phone">Phone:</label>
+        <label htmlFor="Description">Description:</label>
         <input
           type="text"
-          id="phone"
-          value={Phone}
-          onChange={(e) => setPhone(e.target.value)}
+          id="Description"
+          value={Description}
+          onChange={(e) => setDescription(e.target.value)}
         />
 
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          value={Email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={Password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <label htmlFor="gender">Gender:</label>
-        <select id="gender" value={Gender} onChange={(e) => setGender(e.target.value)}>
-          <option value="">Select gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
+        <label htmlFor="Status">Status:</label>
+        <select id="Status" value={Status} onChange={(e) => setStatus(e.target.value)}>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+          <option value="Deleted">Deleted</option>
+          <option value="Expired">Expired</option>
         </select>
 
-        <label htmlFor="dateOfBirth">Date of Birth:</label>
+        <label htmlFor="Amount">Amount:</label>
         <input
-          type="date"
-          id="dateOfBirth"
-          value={DateOfBirth}
-          onChange={(e) => setDateOfBirth(e.target.value)}
+          type="number"
+          id="Amount"
+          value={Amount}
+          onChange={(e) => setAmount(e.target.value)}
         />
 
-<label htmlFor="photo">Photo:</label>
+        <label htmlFor="Currency">Currency:</label>
+        <input
+          type="text"
+          id="Currency"
+          value={Currency}
+          onChange={(e) => setCurrency(e.target.value)}
+        />
+
+        <label htmlFor="photo">Photo:</label>
         <input
           type="file"
           id="photo"
           onChange={(e) => setPhoto(e.target.files[0])}
         />
 
-        <button type="submit">Register</button>
+        <button type="submit">Add Deal</button>
       </form>
+
       <CloudinaryContext cloudName={cloudinaryConfig.cloudName}>
         {PhotoURL && (
           <div>
@@ -164,11 +142,8 @@ const Register = () => {
           </div>
         )}
       </CloudinaryContext>
-      {isRegistered
-        ? message && <div className="SuccessMessage">{message}</div>
-        : message && <div className="ErrorMessage">{message}</div>}
     </>
   );
 };
 
-export default Register;
+export default AddDeal;

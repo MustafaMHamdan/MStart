@@ -8,11 +8,12 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState("");
-  const [isRegistered, setIsReg] = useState(false);
-
+ 
 
   const setToken = useContext(tokenContext).setToken;
   const setIsLoggedIn = useContext(tokenContext).setIsLoggedIn;
+  const setRole = useContext(tokenContext).setRole;
+
   const navigate = useNavigate();
 
   
@@ -28,22 +29,21 @@ const Login = () => {
       })
       .then((result) => {
 
-     console.log(result.data.Role_ID);
+    
 
         localStorage.setItem("token", result.data.token);
         localStorage.setItem("Role", result.data.Role_ID);
 
         setToken(localStorage.getItem("token"));
         setIsLoggedIn(true);
-
+        setRole(localStorage.getItem("Role"))
         navigate("/");
       })
       .catch((err) => {
         console.log(err.response.data.message
           );
         setMessage(err.response.data.message);
-        setIsReg(false);
-      });
+       });
   }
 
 
