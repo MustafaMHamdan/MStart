@@ -3,9 +3,9 @@ const connection = require("../models/db");
 ///////////////////////////////////////////////
 
 const getAllActiveDeal = (req, res) => {
-  const query = `SELECT * from  Deals where Status=Active `;
-
-  connection.query(query, (err, results) => {
+  const query = `SELECT * from  Deals where Status = ? `;
+const data="Active"
+  connection.query(query,data, (err, results) => {
     if (err) {
       return res.status(500).json({
         success: false,
