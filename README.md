@@ -1,17 +1,5 @@
 #MStart
-
-## 📝 Table of Contents
- <p align="center">
-  <a href="" rel="noopener">
- <img width=200px height=200px src="https://corporate.numny.com/wp-content/uploads/2021/08/sitelogo-1-1.png"></a>
-</a>
-</p>
-
-## 🧐 About <a name = "about"></a>
-
- This Is MStart Hiring Task.
-
-## 🏁 Getting Started <a name = "getting_started"></a>
+![image](https://github.com/MustafaMHamdan/MStart/assets/101006737/57239eab-c7dd-4cef-8c79-599af2cabf85)
 
 These instructions will get you a copy of the project up and running on your local machine for  testing purposes.
 
