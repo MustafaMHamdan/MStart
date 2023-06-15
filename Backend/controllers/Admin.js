@@ -228,8 +228,8 @@ const deleteDeal = (req, res) => {
 };
 
 const getAllClaimedDeals = (req, res) => {
-
-  const query = `SELECT * from  ClaimedDeals `;
+/* ID,User_ID,Deal_ID ,ClaimedDeals.Amount,ClaimedDeals.Currency,ClaimedDeals.Name,Description,*/
+  const query = `SELECT   ClaimedDeals.ID,User_ID,Deal_ID ,ClaimedDeals.Amount,ClaimedDeals.Currency,Deals.Name,Description ,Deals.Photo FROM ClaimedDeals inner join deals on ClaimedDeals.Deal_ID=Deals.ID inner join Users on ClaimedDeals.User_Id=Users.ID `;
 
   connection.query(query, (err, results) => {
     if (err) {

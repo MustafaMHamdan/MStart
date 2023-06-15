@@ -58,7 +58,7 @@ const claimDeal = (req, res) => {
 const getMyDeals = (req, res) => {
   const userId = req.token.userId;
 
-  const getDealQuery = `SELECT Name  ,Description,Photo ,ClaimedDeals.Amount , ClaimedDeals.Currency ,User_ID FROM ClaimedDeals inner join deals on ClaimedDeals.Deal_ID=Deals.ID  WHERE User_ID = ?;`;
+  const getDealQuery = `SELECT ClaimedDeals.ID, Name  ,Description,Photo ,ClaimedDeals.Amount , ClaimedDeals.Currency ,User_ID FROM ClaimedDeals inner join deals on ClaimedDeals.Deal_ID=Deals.ID  WHERE User_ID = ?;`;
 
   connection.query(getDealQuery, [userId], (err, dealRows) => {
     if (err) {
