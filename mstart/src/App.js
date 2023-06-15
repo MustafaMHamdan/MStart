@@ -2,11 +2,12 @@ import "./App.css";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
-import Admin from "./components/Admin";
+import Claimed from "./components/Claimed";
 import Users from "./components/Users";
 import Deals from "./components/Deals";
 import Active from "./components/Active";
 import AddDeal from "./components/AddDeal";
+import Profile from "./components/Profile"; 
 import React, { useState, createContext } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -40,11 +41,11 @@ const App = () => {
                <Route path="/deals" element={<Deals />} />
                <Route path="/available_deals" element={<Active />} />
                <Route path="/add-deal" element={<AddDeal />} />
-
+               <Route path="/profile" element={<Profile />} />
                <Route path="/" element={<Home />} />
                <Route path="/register" element={<Register />} />
                <Route path="/login" element={<Login />} />
-               <Route path="/admin" element={<Admin />} />
+               <Route path="/claimed" element={<Claimed />} />
 
 
             </Routes>

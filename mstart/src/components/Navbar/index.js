@@ -26,7 +26,7 @@ const Navbar = () => {
       </div>
       <div className="navbar-links">
         <a href="/">Home</a>
-        <a href="/available-deals">Available</a>
+        <a href="/available_deals">Available</a>
       </div>
       <div className="navbar-auth">
         {isLoggedIn ? (
@@ -35,9 +35,10 @@ const Navbar = () => {
               <>
                 <a href="/deals">Deals</a>
                 <a href="/users">Users</a>
+                <a href="/claimed">Claimed</a>
               </>
             ) : (
-              <> </>
+              <><a href="/profile">My Profile</a> </>
             )}
             <a onClick={logOut} href="/">
               logout
