@@ -50,4 +50,10 @@
   .navbar-auth button:hover {
     background-color: #45a049;
   }
+
+  .logo-image {
+    width: 100px; /* Set the desired width */
+    height: auto; /* The height will be automatically adjusted based on the aspect ratio */
+  }
+  
   

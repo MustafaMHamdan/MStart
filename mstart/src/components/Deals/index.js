@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { tokenContext } from "../../App";
 import { useNavigate } from "react-router-dom";
-import { Image, CloudinaryContext } from 'cloudinary-react';
+import { Image, CloudinaryContext } from "cloudinary-react";
 import "./style.css";
 
 const Deals = () => {
@@ -11,6 +11,7 @@ const Deals = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [dealsPerPage] = useState(10);
   const navigate = useNavigate();
+  const [dealStatuses, setDealStatuses] = useState({});
 
   const fetchDeals = async () => {
     try {
@@ -20,9 +21,18 @@ const Deals = () => {
         },
       });
       setDeals(response.data.All_Deals);
+      initializeDealStatuses(response.data.All_Deals);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const initializeDealStatuses = (deals) => {
+    const initialStatuses = deals.reduce((statuses, deal) => {
+      statuses[deal.ID] = deal.Status;
+      return statuses;
+    }, {});
+    setDealStatuses(initialStatuses);
   };
 
   const addNewDeal = () => {
@@ -41,6 +51,31 @@ const Deals = () => {
   // Change page
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const handleStatusChange = (e, dealId) => {
+    const { value } = e.target;
+    setDealStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [dealId]: value,
+    }));
+  };
+
+  const updateDealStatus = async (dealId, newStatus) => {
+    try {
+      await axios.put(
+        `http://localhost:5000/admin/deal/${dealId}`,
+        { Status: newStatus },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchDeals();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -67,6 +102,19 @@ const Deals = () => {
                 </div>
               </CloudinaryContext>
             )}
+            <select
+              id={`status-${deal.ID}`}
+              value={dealStatuses[deal.ID] || ""}
+              onChange={(e) => handleStatusChange(e, deal.ID)}
+            >
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Deleted">Deleted</option>
+              <option value="Expired">Expired</option>
+            </select>
+            <button onClick={() => updateDealStatus(deal.ID, dealStatuses[deal.ID])}>
+              Update
+            </button>
             <hr />
           </div>
         ))}

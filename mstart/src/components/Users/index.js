@@ -9,7 +9,8 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
-
+  const [Status, setStatus] = useState("");
+  
   const getAllUsers = async () => {
     try {
       const response = await axios.get("http://localhost:5000/admin/allUsers", {
@@ -22,6 +23,49 @@ const Users = () => {
       console.log(error);
     }
   };
+
+  const deleteUser = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/admin/user/${id}`, {
+        headers: {
+          authorization: `Bearer ${token}`
+        },
+      });
+      getAllUsers();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const changeUserStatus = async (id, newStatus) => {
+    try {
+      await axios.put(
+        `http://localhost:5000/admin/user/${id}`,
+        { Status: newStatus },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      getAllUsers();
+      console.log(id, newStatus);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+
+  const [userStatuses, setUserStatuses] = useState({});
+
+  const handleStatusChange = (e, userId) => {
+    const { value } = e.target;
+    setUserStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [userId]: value,
+    }));
+  };
+  
 
   useEffect(() => {
     getAllUsers();
@@ -60,6 +104,22 @@ const Users = () => {
               </div>
             </CloudinaryContext>
           )}
+          <button onClick={() => deleteUser(user.ID)}>Delete</button>
+          <select
+  id="Status"
+  value={userStatuses[user.ID] || ""}
+  onChange={(e) => handleStatusChange(e, user.ID)}
+>
+  <option value="Active">Active</option>
+  <option value="Inactive">Inactive</option>
+  <option value="Deleted">Deleted</option>
+  <option value="Expired">Expired</option>
+</select>
+<button onClick={() => changeUserStatus(user.ID, userStatuses[user.ID])}>
+  Update
+</button>
+
+
           <hr />
         </div>
       ))}
